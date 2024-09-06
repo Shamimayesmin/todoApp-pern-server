@@ -13,6 +13,19 @@ CREATE DATABASE usersDB;
 
 -- create table
 CREATE TABLE users (
-    id VARCHAR(20) PRIMARY KEY,
+    id VARCHAR(40) PRIMARY KEY,
     description VARCHAR (255)
 );
+
+-- insert data in table 
+INSERT INTO users (id, description)
+VALUES (104, beautiful sunny day);
+
+-- quary commands for insert data
+"INSERT INTO users (id, description) VALUES($1, $2) RETURNING *"
+
+-- return all data 
+'SELECT * FROM users'
+
+-- return specific data by id
+'SELECT * FROM users WHERE id=$1'

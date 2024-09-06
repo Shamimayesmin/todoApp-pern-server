@@ -20,19 +20,26 @@ app.post('/todos', async(req, res)=>{
     try{
         const {description} = req.body;
         const id = uuidv4(); 
+        // inserting data into database
+        const newTodo = await pool.query("INSERT INTO users (id, description) VALUES($1, $2) RETURNING *", [id, description])
 
+
+      
         res.status(200).json({
-            message: `todos are created ${id}, ${description}`
-        })
-        // const newTodo = await pool.query(
-        //     'INSERT INTO todo (description) VALUES($1) RETURNING *', [description]
-        // )
-        // res.json(newTodo.rows[0])
+            message: `Todo created with ID: ${id}, Description: ${description}`,
+            data: newTodo.rows  // 
+        });
+      
 
 
 
-    }catch(err){
+    }catch (err) {
+        // Error handling
         console.error(err.message);
+        res.status(500).json({
+            message: "Failed to create todo",
+            error: err.message
+        });
     }
 });
 
@@ -41,13 +48,35 @@ app.post('/todos', async(req, res)=>{
 app.get('/todos', async(req, res)=>{
     try{
         
+      
+        const allTodo = await pool.query(
+            'SELECT * FROM users'
+        )
         res.status(200).json({
-            message: "users are returned"
+            message: "users are returned",
+            data: allTodo.rows
         })
-        // const allTodo = await pool.query(
-        //     'SELECT * FROM todo', [description]
-        // )
-        // res.json(allTodo.rows)
+        
+
+    }catch(error){
+        res.json({
+            error : error.message
+        })
+    }
+});
+app.get('/todos/:id', async(req, res)=>{
+    try{
+        
+      
+        const {id} = req.params;
+        const todo = await pool.query(
+            'SELECT * FROM users WHERE id=$1', [id]
+        )
+        res.status(200).json({
+            message:`specific todos is returned`, data: todo.rows
+            
+        })
+        
 
     }catch(error){
         res.json({
