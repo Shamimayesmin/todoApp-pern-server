@@ -29,3 +29,10 @@ VALUES (104, beautiful sunny day);
 
 -- return specific data by id
 'SELECT * FROM users WHERE id=$1'
+
+-- delete a specific data by id
+
+'DELETE FROM users WHERE id=$1'
+
+-- update a todo by id
+'UPDATE users SET description=$1 WHERE id=$2 RETURNING *

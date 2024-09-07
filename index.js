@@ -84,6 +84,48 @@ app.get('/todos/:id', async(req, res)=>{
         })
     }
 });
+app.delete('/todos/:id', async(req, res)=>{
+    try{
+        
+      
+        const {id} = req.params;
+        const deleteTodo = await pool.query(
+            'DELETE FROM users WHERE id=$1', [id]
+        )
+        res.status(200).json({
+            message:`specific todo is deleted with id: ${id}`, data: deleteTodo.rows
+            
+        })
+        
+
+    }catch(error){
+        res.json({
+            error : error.message
+        })
+    }
+});
+
+app.put('/todos/:id', async(req, res)=>{
+    try{
+        
+        const {id} = req.params;
+
+        const {description} = req.body;
+        const updateTodo = await pool.query(
+            'UPDATE users SET description=$1 WHERE id=$2 RETURNING *', [description,id]
+        )
+        res.status(200).json({
+            message:`todo was updated`, data: updateTodo.rows
+            
+        })
+        
+
+    }catch(error){
+        res.json({
+            error : error.message
+        })
+    }
+});
 
 app.listen(PORT,()=>{
     console.log(`kisi sayer ki gajal, jo de ru ko suku ke pal, koi mujko u mila he jece banjaar ko gar ${PORT}`);
