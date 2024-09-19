@@ -36,3 +36,6 @@ VALUES (104, beautiful sunny day);
 
 -- update a todo by id
 'UPDATE users SET description=$1 WHERE id=$2 RETURNING *
+
+
+-- 
