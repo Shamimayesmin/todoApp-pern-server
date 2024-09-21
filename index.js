@@ -1,11 +1,12 @@
 const express = require("express");
-
+require('dotenv').config();
 const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
-const PORT = 5000;
+// const PORT = 5000;
+const port = process.env.PORT || 3000;
 
 //Middleware
 app.use(cors());
@@ -104,8 +105,8 @@ app.put("/todos/:id", async (req, res) => {
 	}
 });
 
-app.listen(PORT, () => {
+app.listen(port, () => {
 	console.log(
-		`kisi sayer ki gajal, jo de ru ko suku ke pal, koi mujko u mila he jece banjaar ko gar ${PORT}`
+		`kisi sayer ki gajal, jo de ru ko suku ke pal, koi mujko u mila he jece banjaar ko gar ${port}`
 	);
 });
